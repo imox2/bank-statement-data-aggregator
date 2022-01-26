@@ -2,6 +2,7 @@ import readXlsxFile from 'read-excel-file/node'
 import * as xlsx from 'xlsx';
 import {convertDepositToMeaningfulData} from './utilities/converter';
 import {getTotalsForEntities, getTotalsForDates} from './utilities/aggregator';
+import {getOutgoingsOfADate, findRecordsAboveAmount, findRecordsAboveAndBelowAmount} from './utilities/filter';
 // I have moved the exported xls in the same directiory as the script
 const iciciBankExportedFile:string = 'OpTransactionHistory27-01-2022.xls';
 
@@ -63,14 +64,19 @@ const calculateWithdrawalDeposit = data => {
 
     const meaningfulIncomings = convertDepositToMeaningfulData(incomingAmounts);
     const meaningfulOutgoings = convertDepositToMeaningfulData(outgoingAmounts);
-    console.log("incomings:", meaningfulIncomings);
-    console.log("outgoings:", meaningfulOutgoings);
+   // console.log("incomings:", meaningfulIncomings);
+    //console.log("outgoings:", meaningfulOutgoings);
 
-    console.log('entities inpcoming:',getTotalsForEntities(meaningfulIncomings))
-    console.log('entities outgoing:',getTotalsForEntities(meaningfulOutgoings))
+    //console.log('entities inpcoming:',getTotalsForEntities(meaningfulIncomings))
+   // console.log('entities outgoing:',getTotalsForEntities(meaningfulOutgoings))
 
-    console.log('entities date incoming:',getTotalsForDates(meaningfulIncomings))
-    console.log('entities date outgoing:',getTotalsForDates(meaningfulOutgoings))
+    //console.log('entities date incoming:',getTotalsForDates(meaningfulIncomings))
+   // console.log('entities date outgoing:',getTotalsForDates(meaningfulOutgoings))
+
+   // console.log("one day 03/01/2022:",getOutgoingsOfADate(meaningfulOutgoings,'10/01/2022'))
+   console.log("findRecordsAboveAmount 1000:",findRecordsAboveAndBelowAmount(meaningfulOutgoings,1000,5000))
+    console.log("incomingAmountSum:",incomingAmountSum);
+    console.log("outgoingAmountSum:",outgoingAmountSum);
 }
 
 const excelJson = readExcel();

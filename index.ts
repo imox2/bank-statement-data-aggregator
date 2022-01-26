@@ -1,8 +1,9 @@
 import readXlsxFile from 'read-excel-file/node'
 import * as xlsx from 'xlsx';
 import {convertDepositToMeaningfulData} from './utilities/converter';
+import {getTotalsForEntities, getTotalsForDates} from './utilities/aggregator';
 // I have moved the exported xls in the same directiory as the script
-const iciciBankExportedFile:string = 'OpTransactionHistory24-01-2022.xls';
+const iciciBankExportedFile:string = 'OpTransactionHistory27-01-2022.xls';
 
 const readExcel = () => {
     const workbook = xlsx.readFile(iciciBankExportedFile);
@@ -60,7 +61,16 @@ const calculateWithdrawalDeposit = data => {
     // console.log("incomingAmounts:",incomingAmounts);
     // console.log("outgoingAmounts:",outgoingAmounts);
 
-    console.log("incomings:", convertDepositToMeaningfulData(incomingAmounts));
+    const meaningfulIncomings = convertDepositToMeaningfulData(incomingAmounts);
+    const meaningfulOutgoings = convertDepositToMeaningfulData(outgoingAmounts);
+    console.log("incomings:", meaningfulIncomings);
+    console.log("outgoings:", meaningfulOutgoings);
+
+    console.log('entities inpcoming:',getTotalsForEntities(meaningfulIncomings))
+    console.log('entities outgoing:',getTotalsForEntities(meaningfulOutgoings))
+
+    console.log('entities date incoming:',getTotalsForDates(meaningfulIncomings))
+    console.log('entities date outgoing:',getTotalsForDates(meaningfulOutgoings))
 }
 
 const excelJson = readExcel();

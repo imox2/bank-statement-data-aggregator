@@ -3,6 +3,7 @@ import * as xlsx from 'xlsx';
 import {convertDepositToMeaningfulData} from './utilities/converter';
 import {getTotalsForEntities, getTotalsForDates} from './utilities/aggregator';
 import {getOutgoingsOfADate, findRecordsAboveAmount, findRecordsAboveAndBelowAmount} from './utilities/filter';
+import {tagRecords} from './utilities/tagger';
 // I have moved the exported xls in the same directiory as the script
 const iciciBankExportedFile:string = 'OpTransactionHistory27-01-2022.xls';
 
@@ -64,6 +65,7 @@ const calculateWithdrawalDeposit = data => {
 
     const meaningfulIncomings = convertDepositToMeaningfulData(incomingAmounts);
     const meaningfulOutgoings = convertDepositToMeaningfulData(outgoingAmounts);
+    tagRecords(meaningfulOutgoings);
    // console.log("incomings:", meaningfulIncomings);
     //console.log("outgoings:", meaningfulOutgoings);
 
@@ -74,7 +76,7 @@ const calculateWithdrawalDeposit = data => {
    // console.log('entities date outgoing:',getTotalsForDates(meaningfulOutgoings))
 
    // console.log("one day 03/01/2022:",getOutgoingsOfADate(meaningfulOutgoings,'10/01/2022'))
-   console.log("findRecordsAboveAmount 1000:",findRecordsAboveAndBelowAmount(meaningfulOutgoings,1000,5000))
+   console.log("findRecordsAboveAmount 5000:",findRecordsAboveAndBelowAmount(meaningfulOutgoings,10000,30000))
     console.log("incomingAmountSum:",incomingAmountSum);
     console.log("outgoingAmountSum:",outgoingAmountSum);
 }
